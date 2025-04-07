@@ -25,6 +25,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.kanyu.chat.constant.RedisConstants.LOGIN_USER_TTL;
+import static com.kanyu.chat.constant.ResponseConstant.LOGIN_USER_KEY;
+import static com.kanyu.chat.constant.ResponseConstant.USER_NOT_FOUND;
+
 @Slf4j
 @Service
 public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements LoginService {
@@ -86,13 +90,13 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
         User user = query().eq("phone", loginForm.getPhone()).one();
         if (user==null){
             //返回用户不存在 这里预期进入注册网页
-            return Result.fail("用户不存在",100000008);
+            return Result.fail(USER_NOT_FOUND,400);
         }
         //校验密码是否正确 这里直接对比原始的密码与加密的密码是否相同
         boolean flag = PasswordUtil.checkPassword(loginForm.getPassword(),user.getPassword());
         //不正确
         if (!flag){
-         return Result.fail("密码不正确",10000009);
+            return Result.fail("USER_PASSWORD_NOT_CORRECT",400);
         }
         // 保存用户信息到 redis中
         // 随机生成token，作为登录令牌
@@ -106,10 +110,11 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
                 CopyOptions.create().setIgnoreNullValue(true)
                         .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
         // 7.3.存储
-        String tokenKey = "user_login" + token;
+        String tokenKey = LOGIN_USER_KEY + token;
+        log.info("tokenKey"+tokenKey);
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
         // 7.4.设置token有效期
-        stringRedisTemplate.expire(tokenKey, 300, TimeUnit.MINUTES);
+        stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
         Map<String,Object> result = new HashMap<>();
         result.put("token",token);
         result.put("user",user);

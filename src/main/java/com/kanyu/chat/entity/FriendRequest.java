@@ -7,42 +7,41 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user_db")
-public class User implements Serializable {
-
+@TableName("friend_request") //好友申请实体类
+public class FriendRequest {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键 消息唯一id
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 手机号码
-     */
-    private String phone;
 
     /**
-     * 密码，需加密存储
+     * 发起好友申请的人
      */
-    private String password;
+    private Long requesterId;
 
     /**
-     * 昵称，默认是随机字符
+     * 接受好友申请的人
      */
-    private String userName;
+    private User receiverId;
 
     /**
-     * 用户头像，默认给个头像
+     * 好友申请验证理由
      */
-    private String avatar;
+    private String reason;
+
+    /**
+     * 好友申请状态 0 申请中 1已通过 2已拒绝
+     */
+    private Integer status;
 
     /**
      * 创建时间
@@ -53,6 +52,4 @@ public class User implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
-
 }

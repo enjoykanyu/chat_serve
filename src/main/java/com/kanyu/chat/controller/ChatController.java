@@ -6,6 +6,7 @@ import com.kanyu.chat.entity.ChatContent;
 import com.kanyu.chat.entity.User;
 import com.kanyu.chat.service.ChatService;
 import com.kanyu.chat.service.LoginService;
+import com.kanyu.chat.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +61,15 @@ public class ChatController {
         log.info("发送用户消息"+chatContent);
         chatService.save(chatContent);
         return Result.ok();
+    }
+
+    //拿到与当前用户发过消息的所有用户列表，展示最后一条消息，没有读过的消息数量，最后的消息谁发送的
+    @GetMapping("allChatUser")
+    public Result allChatUser(HttpSession session) {
+        //打印日志
+        User user = UserHolder.getUser();
+        log.info("当前用户"+user);
+        Result result = chatService.allChatUser(user);
+        return result;
     }
 }

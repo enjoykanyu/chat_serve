@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("friendship")
+@TableName("friendship") //好友关系实体类
 public class Friendship implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -23,13 +23,13 @@ public class Friendship implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     
-    //请求加好友的人
-    private User requester;
+    //当前用户id
+    private Long userId;
 
-    //接受加好友的人
-    private User receiver;
+    //当前用户的好友id
+    private Long friendId;
 
-    //加好友的状态 0 请求发送中 1通过 2 拒绝 3拉黑
+    //加好友的状态  1好友 2 当前用户删除类对方 3拉黑
     private Integer status;
     
     private LocalDateTime createTime;

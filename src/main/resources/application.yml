@@ -35,6 +35,13 @@ mybatis-plus:
   type-aliases-package: com.hmdp.entity # 别名扫描包
 logging:
   level:
-    com.hmdp: debug
+    com.kanyuServer: debug
   pattern:
     dateformat: mm:ss.SSS
+
+#minio配置
+minio:
+  access-key: P0YtFn3Wn8ncHjpXUjHu
+  secret-key: Lx6rLeKNCL8EzVPZzeNRK7u5W5jJzl4KYdPzL32s
+  url: http://127.0.0.1:9000  #访问地址
+  bucket-name: testbucket

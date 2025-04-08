@@ -34,11 +34,11 @@ public class FriendController {
     private FriendRequestService friendRequestService;
 
     // 发送好友请求
-    @PostMapping("/requests")
+    @PostMapping("/friend-apply")
     public Result sendFriendRequest(
             @RequestBody FriendRequestDto dto
     ) {
-        friendRequestService.sendFriendRequest(dto.getSendUserId(), dto.getRecieiveUserId(), dto.getResaon());
+        friendRequestService.sendFriendRequest(UserHolder.getUser().getId(), dto.getApplyUserId(), dto.getReason());
         return Result.ok();
     }
 
@@ -70,10 +70,17 @@ public class FriendController {
     }
 
     // 根据指定手机号搜索用户
-    @PostMapping("/search/user") //精准匹配仅可搜索手机号
+    @GetMapping("/search/user") //精准匹配仅可搜索手机号
     public Result searchUser(@RequestParam("phone") String phone, HttpSession session) {
         Long userId = UserHolder.getUser().getId();
         return friendService.searchUser(phone);
+    }
+
+    // 根据指定手机号搜索用户判断是否为当前用户的好友
+    @PostMapping("/search/isFriend") //精准匹配仅可搜索手机号
+    public Result searchUser(@RequestBody User user, HttpSession session) {
+        Long userId = UserHolder.getUser().getId();
+        return friendService.isFriend(userId,user.getId());
     }
 
 }

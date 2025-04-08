@@ -56,5 +56,15 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friendship> imp
         return Result.ok(search_user);
     }
 
+    @Override
+    public Result isFriend(Long userId, Long friend_id) {
+        Friendship one = query().eq("user_id", userId).eq("friend_id", friend_id).one();
+        log.info("查询到的用户好友"+one);
+        if (one==null){
+            return Result.fail("当前用户不是您的好友",400);
+        }
+        return Result.ok(true);
+    }
+
 
 }

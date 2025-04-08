@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class FriendRequestDto {
-    private String resaon;
-    private Long sendUserId;
-    private Long recieiveUserId;
-    private Integer notRead;
+    private String reason;
+    private Long applyUserId;
 }

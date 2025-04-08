@@ -16,4 +16,6 @@ public interface FriendService extends IService<Friendship> {
     List<FriendShipDto> getFriends(Long userId);
 
     Result searchUser(String phone);
+
+    Result isFriend(Long userId, Long id);
 }

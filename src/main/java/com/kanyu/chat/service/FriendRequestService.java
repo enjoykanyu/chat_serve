@@ -1,6 +1,7 @@
 package com.kanyu.chat.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kanyu.chat.dto.FriendRequestResponse;
 import com.kanyu.chat.entity.FriendRequest;
 import com.kanyu.chat.entity.Friendship;
 
@@ -15,5 +16,7 @@ public interface FriendRequestService extends IService<FriendRequest> {
     void handleFriendRequest(Long requestId, Long userId, boolean accept);
 
 
-    List<FriendRequest> getAllRequests(Long userId);
+    List<FriendRequestResponse> getAllRequests(Long userId);
+
+    List<FriendRequestResponse> getPendingRequests(Long userId);
 }

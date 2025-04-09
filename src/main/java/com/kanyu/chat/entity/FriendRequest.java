@@ -31,7 +31,7 @@ public class FriendRequest {
     /**
      * 接受好友申请的人
      */
-    private User receiverId;
+    private Long receiverId;
 
     /**
      * 好友申请验证理由

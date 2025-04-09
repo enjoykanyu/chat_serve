@@ -2,6 +2,7 @@ package com.kanyu.chat.controller;
 
 import com.kanyu.chat.common.Result;
 import com.kanyu.chat.dto.FriendRequestDto;
+import com.kanyu.chat.dto.FriendRequestResponse;
 import com.kanyu.chat.dto.FriendShipDto;
 import com.kanyu.chat.entity.ChatContent;
 import com.kanyu.chat.entity.FriendRequest;
@@ -63,10 +64,18 @@ public class FriendController {
 
     // 获取所有的好友请求
     @GetMapping("/requests/all")
-    public List<FriendRequest> getPendingRequests(
+    public List<FriendRequestResponse> getAllRequests(
     ) {
         Long userId = UserHolder.getUser().getId();
         return friendRequestService.getAllRequests(userId);
+    }
+
+    // 获取所有未处理好友请求数量
+    @GetMapping("/requests/all/getPending")
+    public List<FriendRequestResponse> getPendingRequests(
+    ) {
+        Long userId = UserHolder.getUser().getId();
+        return friendRequestService.getPendingRequests(userId);
     }
 
     // 根据指定手机号搜索用户

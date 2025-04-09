@@ -117,12 +117,44 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
 
 
     @Override
-    public List<FriendRequest> getAllRequests(Long userId) {
-        List<FriendRequest> friendRequests = query().eq("user_id", userId).list();
+    public List<FriendRequestResponse> getAllRequests(Long userId) {
+        List<FriendRequest> friendRequests = query().eq("receiver_id", userId).list();
+        log.info(friendRequests+"");
         if (friendRequests==null){
             //当前用户无任何新好友处理
             return new ArrayList<>();
         }
-        return friendRequests;
+        List<FriendRequestResponse> friendRequestResponses = new ArrayList<>();
+        for (FriendRequest friendDb:friendRequests) {
+            //循环遍历出好友的信息这里得仅返回用户的名称、手机号、朋友圈、头像、id，其它的信息不返回
+            User request_user = loginService.query().eq("id", friendDb.getRequesterId()).one();
+            FriendRequestResponse curFriendApply = new FriendRequestResponse();
+            curFriendApply.setApplyUser(request_user);
+            curFriendApply.setReason(friendDb.getReason());
+            friendRequestResponses.add(curFriendApply);
+            log.info("循环"+friendRequestResponses);
+        }
+        log.info("返回了friendRequestResponses");
+        log.info(friendRequestResponses+"");
+        return friendRequestResponses;
+    }
+
+    @Override
+    public List<FriendRequestResponse> getPendingRequests(Long userId) {
+        List<FriendRequest> friendRequests = query().eq("receiver_id", userId).eq("status",0).list();
+        if (friendRequests==null){
+            //当前用户无任何新好友处理
+            return new ArrayList<>();
+        }
+        List<FriendRequestResponse> friendRequestResponses = new ArrayList<>();
+        for (FriendRequest friendDb:friendRequests) {
+            //循环遍历出好友的信息这里得仅返回用户的名称、手机号、朋友圈、头像、id，其它的信息不返回
+            User request_user = loginService.query().eq("id", friendDb.getRequesterId()).one();
+            FriendRequestResponse curFriendApply = new FriendRequestResponse();
+            curFriendApply.setApplyUser(request_user);
+            curFriendApply.setReason(friendDb.getReason());
+            friendRequestResponses.add(curFriendApply);
+        }
+        return friendRequestResponses;
     }
 }

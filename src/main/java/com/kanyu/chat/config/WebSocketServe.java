@@ -58,6 +58,7 @@ public class WebSocketServe {
             jsonObject.set("sendUserId", userId);
             jsonObject.set("receiveUserId", receiveUser);
             jsonObject.set("content", text);
+            jsonObject.set("type",2); //type=2表示用户发送的消息
             this.sendMessage(jsonObject.toString(), toSession);
             log.info("发送给用户userId={}，消息：{}", receiveUser, jsonObject.toString());
         } else {
@@ -76,6 +77,27 @@ public class WebSocketServe {
             toSession.getAsyncRemote().sendText(message);
         } catch (Exception e) {
             log.error("服务端发送消息给客户端失败", e);
+        }
+    }
+
+
+    /*
+     * 向在线的用户发送指定消息
+     * 若用户不在线，则不发送不报错，当用户在线的时候前端主动请求申请列表
+     *
+    */
+    public static void sendMessageOnline(Long userId, String message) {
+        log.info("进入了发送好友消息函数");
+        Session session = sessionMap.get(userId+"");
+        if (session != null && session.isOpen()) {
+            try {
+                session.getAsyncRemote().sendText(message);
+                log.info("服务端给客户端[{}]发送消息{}", session.getId(), message);
+            } catch (Exception e) {
+                log.error("消息发送失败: {}", e.getMessage());
+            }
+        }else {
+            log.info("发送失败，未找到用户username={}的session", userId);
         }
     }
 

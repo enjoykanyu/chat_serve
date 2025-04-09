@@ -1,14 +1,21 @@
 package com.kanyu.chat.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kanyu.chat.common.Result;
+import com.kanyu.chat.config.WebSocketServe;
+import com.kanyu.chat.dto.FriendRequestResponse;
 import com.kanyu.chat.entity.FriendRequest;
-import com.kanyu.chat.entity.Friendship;
+import com.kanyu.chat.entity.User;
 import com.kanyu.chat.mapper.FriendRequestMapper;
 import com.kanyu.chat.service.FriendRequestService;
+import com.kanyu.chat.service.FriendService;
+import com.kanyu.chat.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +30,10 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
 //    private final UserRepository userRepository;
 //    private final SimpMessagingTemplate messagingTemplate;
 
+    @Resource
+    FriendService friendService;
+    @Resource
+    LoginService loginService;
     @Transactional
     public void sendFriendRequest(Long requesterId, Long receiverId,String reason) {
         // 验证不能添加自己
@@ -32,6 +43,27 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
         }
 
         // 检查是否已存在关系
+        Result friend = friendService.isFriend(requesterId, receiverId);
+        if (friend.getSuccess()){
+            log.info("该用户已为自己的好友，请勿重复添加好友");
+            return;
+        }
+
+        //保存申请请求记录
+        FriendRequest friendRequest = new FriendRequest();
+        friendRequest.setRequesterId(requesterId);
+        friendRequest.setReceiverId(receiverId);
+        friendRequest.setReason(reason);
+        save(friendRequest);
+        //向客户端用户B发送好友请求
+        // 发送好友请求通知
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.set("sendUserId", requesterId);
+        jsonObject.set("receiveUserId", receiverId);
+        jsonObject.set("content", reason);
+        jsonObject.set("type",1);//type=1则表示为好用申请请求
+        WebSocketServe.sendMessageOnline(receiverId,jsonObject.toString());
+
 //        Optional<Friendship> existing = friendshipRepository
 //            .findByRequesterIdAndReceiverId(requesterId, receiverId);
 //        if (existing.isPresent()) {

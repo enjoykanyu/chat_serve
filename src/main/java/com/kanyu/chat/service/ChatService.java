@@ -13,4 +13,6 @@ public interface ChatService extends IService<ChatContent> {
     Result oneConent(Long sendUserId, Long receiveUserId, HttpSession session);
 
     Result allChatUser(User user);
+
+    Result insertChat(ChatContent chatContent);
 }

@@ -59,8 +59,9 @@ public class ChatController {
     public Result send(@RequestBody ChatContent chatContent, HttpSession session) {
         //打印日志
         log.info("发送用户消息"+chatContent);
-        chatService.save(chatContent);
-        return Result.ok();
+//        chatService.save(chatContent);
+        return chatService.insertChat(chatContent);
+//        return Result.ok();
     }
 
     //拿到与当前用户发过消息的所有用户列表，展示最后一条消息，没有读过的消息数量，最后的消息谁发送的

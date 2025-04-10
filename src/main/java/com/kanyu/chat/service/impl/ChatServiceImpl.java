@@ -121,4 +121,10 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
         });
         return Result.ok(result_list);
     }
+
+    @Override
+    public Result insertChat(ChatContent chatContent) {
+        save(chatContent);
+        return Result.ok();
+    }
 }

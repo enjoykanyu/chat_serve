@@ -101,6 +101,27 @@ public class WebSocketServe {
         }
     }
 
+
+    /*
+     * 向在线的用户发送处理消息同意和拒绝消息
+     * 若用户不在线，则不发送不报错，当用户在线的时候前端主动请求好友同意和拒绝消息
+     * type=3 系统消息
+     */
+    public static void sendMessageApply(Long userId, String message) {
+        log.info("进入了发送好友处理消息函数");
+        Session session = sessionMap.get(userId+"");
+        if (session != null && session.isOpen()) {
+            try {
+                session.getAsyncRemote().sendText(message);
+                log.info("服务端给客户端[{}]发送消息{}", session.getId(), message);
+            } catch (Exception e) {
+                log.error("消息发送失败: {}", e.getMessage());
+            }
+        }else {
+            log.info("发送失败，未找到用户username={}的session", userId);
+        }
+    }
+
     private void sendAllMessage(String message) {
         try {
             for (Session session : sessionMap.values()) {

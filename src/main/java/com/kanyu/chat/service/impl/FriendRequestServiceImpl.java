@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kanyu.chat.common.Result;
 import com.kanyu.chat.config.WebSocketServe;
 import com.kanyu.chat.dto.FriendRequestResponse;
+import com.kanyu.chat.entity.ChatContent;
 import com.kanyu.chat.entity.FriendRequest;
+import com.kanyu.chat.entity.Friendship;
 import com.kanyu.chat.entity.User;
 import com.kanyu.chat.mapper.FriendRequestMapper;
+import com.kanyu.chat.service.ChatService;
 import com.kanyu.chat.service.FriendRequestService;
 import com.kanyu.chat.service.FriendService;
 import com.kanyu.chat.service.LoginService;
@@ -34,6 +37,8 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
     FriendService friendService;
     @Resource
     LoginService loginService;
+    @Resource
+    ChatService chatService;
     @Transactional
     public void sendFriendRequest(Long requesterId, Long receiverId,String reason) {
         // 验证不能添加自己
@@ -111,6 +116,63 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
 
     @Override
     public void handleFriendRequest(Long requestId, Long userId, boolean accept) {
+            //查看好友申请关系
+        FriendRequest friendRequest = query().eq("requester_id", requestId).eq("receiver_id", userId).one();
+        if (friendRequest==null){
+            log.info("当前好友无法处理");
+            return;
+        }
+        //1,拒绝，把好友关系改成2
+        if (!accept){
+            boolean flag = update().eq("requester_id", requestId).eq("receiver_id", userId).setSql("status = "+2).update();
+            if (!flag){
+                log.info("好友处理关系更新报错");
+                return;
+            }
+            //发送客户端拒绝消息
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.set("sendUserId", requestId);
+            jsonObject.set("receiveUserId", userId);
+            jsonObject.set("content", "拒绝");
+            jsonObject.set("type",3);//type=3则表示为好友处理请求
+            WebSocketServe.sendMessageApply(requestId,jsonObject.toString());
+        }else {
+            //2,同意，好友关系改成1
+            boolean flag = update().eq("requester_id", requestId).eq("receiver_id", userId).setSql("status = "+1).update();
+            if (!flag){
+                log.info("好友处理关系更新报错");
+                return;
+            }
+            //存储双向好友关系表
+            Friendship friendshipUser = new Friendship();
+            friendshipUser.setFriendId(requestId);
+            friendshipUser.setUserId(userId);
+            friendService.save(friendshipUser);
+            Friendship friendshipRequest = new Friendship();
+            friendshipRequest.setFriendId(userId);
+            friendshipRequest.setUserId(requestId);
+            friendService.save(friendshipRequest);
+            //发送客户端成功消息
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.set("sendUserId", requestId);
+            jsonObject.set("receiveUserId", userId);
+            jsonObject.set("content", "同意");
+            jsonObject.set("type",3);//type=3则表示为好友处理请求
+            WebSocketServe.sendMessageApply(requestId,jsonObject.toString());
+            //3，增加两者之间的消息
+            //3.1申请者的验证消息
+            ChatContent requesterReason = new ChatContent();
+            requesterReason.setSendUserId(requestId);
+            requesterReason.setReceiveUserId(userId);
+            requesterReason.setMessage(friendRequest.getReason());
+            chatService.insertChat(requesterReason);
+            //3.2 同意后的系统消息
+            ChatContent receiverReason = new ChatContent();
+            receiverReason.setReceiveUserId(requestId);
+            receiverReason.setSendUserId(userId);
+            receiverReason.setMessage("我已同意了你的好友申请");
+            chatService.insertChat(receiverReason);
+        }
 
     }
 

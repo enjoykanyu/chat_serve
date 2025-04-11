@@ -193,6 +193,7 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
             FriendRequestResponse curFriendApply = new FriendRequestResponse();
             curFriendApply.setApplyUser(request_user);
             curFriendApply.setReason(friendDb.getReason());
+            curFriendApply.setStatus(friendDb.getStatus());
             friendRequestResponses.add(curFriendApply);
             log.info("循环"+friendRequestResponses);
         }

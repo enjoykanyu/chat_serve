@@ -8,4 +8,5 @@ import lombok.Data;
 public class FriendRequestResponse {
     private String reason;
     private User applyUser;
+    private Integer status;//好友请求状态
 }

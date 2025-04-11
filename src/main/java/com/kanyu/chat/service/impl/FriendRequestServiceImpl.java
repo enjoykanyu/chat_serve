@@ -60,6 +60,12 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
         friendRequest.setReceiverId(receiverId);
         friendRequest.setReason(reason);
         save(friendRequest);
+        //存储申请者的验证消息，后续好友通过之后展示在消息记录中
+        ChatContent chatContent = new ChatContent();
+        chatContent.setSendUserId(requesterId);
+        chatContent.setReceiveUserId(receiverId);
+        chatContent.setMessage(friendRequest.getReason());
+        chatService.insertChat(chatContent);
         //向客户端用户B发送好友请求
         // 发送好友请求通知
         JSONObject jsonObject = new JSONObject();
@@ -161,11 +167,11 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
             WebSocketServe.sendMessageApply(requestId,jsonObject.toString());
             //3，增加两者之间的消息
             //3.1申请者的验证消息
-            ChatContent requesterReason = new ChatContent();
-            requesterReason.setSendUserId(requestId);
-            requesterReason.setReceiveUserId(userId);
-            requesterReason.setMessage(friendRequest.getReason());
-            chatService.insertChat(requesterReason);
+//            ChatContent requesterReason = new ChatContent();
+//            requesterReason.setSendUserId(requestId);
+//            requesterReason.setReceiveUserId(userId);
+//            requesterReason.setMessage(friendRequest.getReason());
+//            chatService.insertChat(requesterReason);
             //3.2 同意后的系统消息
             ChatContent receiverReason = new ChatContent();
             receiverReason.setReceiveUserId(requestId);

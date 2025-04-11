@@ -80,8 +80,10 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
             log.info("当前循环到了用户"+friend);
             //拿到当前用户发送给对方的最后一条消息
             ChatContent cur_cotent = query().eq("send_user_id", user.getId()).eq("receive_user_id", friend.getFriendUser().getId()).orderByDesc("create_time").last("limit 1").one();
+            log.info("当前用户发送给对方的最后一条消息"+cur_cotent);
             //拿到当前对方发送给当前用户的最后一条消息
             ChatContent reciver_cotent = query().eq("receive_user_id", user.getId()).eq("send_user_id", friend.getFriendUser().getId()).orderByDesc("create_time").last("limit 1").one();
+            log.info("当前用户发送给对方的最后一条消息"+reciver_cotent);
             ChatContent actual_cotent = cur_cotent; //实际最靠后的消息对象
             Integer unread =0;
             if (cur_cotent==null || reciver_cotent==null){ //当前用户没有发送消息给对方
@@ -99,7 +101,7 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
             } else if (cur_cotent.getCreateTime().isBefore(reciver_cotent.getCreateTime())){ //当前用户发送的消息更靠前 则对方的消息更新靠后
                 actual_cotent = reciver_cotent;
                 unread = query().eq("receive_user_id", user.getId()).eq("send_user_id", friend.getFriendUser().getId()).eq("is_read", 1).count();
-                User actual_user = loginService.query().eq("id", actual_cotent.getReceiveUserId()).one();
+                User actual_user = loginService.query().eq("id", actual_cotent.getSendUserId()).one();
                 result.put("user",actual_user);//存储谁的消息为最后一条
             }else{
                 User actual_user = loginService.query().eq("id", actual_cotent.getSendUserId()).one();

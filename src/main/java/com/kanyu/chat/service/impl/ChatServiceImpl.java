@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kanyu.chat.common.Result;
 import com.kanyu.chat.dto.ChatContentDto;
 import com.kanyu.chat.dto.FriendShipDto;
+import com.kanyu.chat.dto.MessageDto;
 import com.kanyu.chat.entity.*;
 import com.kanyu.chat.mapper.ChatMapper;
 import com.kanyu.chat.service.*;
@@ -184,6 +185,18 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
             return time2.compareTo(time1);
         });
         return Result.ok(response);
+    }
+
+    @Override
+    public Result insertGroupChat(MessageDto messageDto) {
+        String groupId = messageDto.getGroupId();
+        GroupMessage groupMessage = new GroupMessage();
+        groupMessage.setGroupId(groupId);
+        groupMessage.setSenderId(Long.valueOf(messageDto.getSendUser()));
+        groupMessage.setContent(messageDto.getMessage());
+        groupMessage.setType(1);
+        groupMessageService.save(groupMessage);
+        return Result.ok();
     }
 
     @Override

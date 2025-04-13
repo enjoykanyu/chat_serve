@@ -2,6 +2,7 @@ package com.kanyu.chat.controller;
 
 import cn.hutool.log.Log;
 import com.kanyu.chat.common.Result;
+import com.kanyu.chat.dto.MessageDto;
 import com.kanyu.chat.entity.ChatContent;
 import com.kanyu.chat.entity.Group;
 import com.kanyu.chat.entity.User;
@@ -57,11 +58,20 @@ public class ChatController {
 
     //发送消息
     @PostMapping("send")
-    public Result send(@RequestBody ChatContent chatContent, HttpSession session) {
+    public Result send(@RequestBody MessageDto messageDto, HttpSession session) {
         //打印日志
-        log.info("发送用户消息"+chatContent);
+        log.info("发送用户消息"+messageDto);
 //        chatService.save(chatContent);
-        return chatService.insertChat(chatContent);
+        if ("private".equals(messageDto.getChatType())){
+            ChatContent chatContent = new ChatContent();
+            chatContent.setMessage(messageDto.getMessage());
+            chatContent.setSendUserId(Long.valueOf(messageDto.getSendUser()));
+            chatContent.setReceiveUserId(Long.valueOf(messageDto.getReceiveUser()));
+            chatContent.setIsRead(messageDto.getNotRead());
+            return chatService.insertChat(chatContent);
+        }else {
+            return chatService.insertGroupChat(messageDto);
+        }
 //        return Result.ok();
     }
 

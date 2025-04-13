@@ -66,11 +66,13 @@ public class WebSocketServe {
         String chatType = obj.getStr("chatType");
         // 消息类型路由
         if ("group".equals(chatType)){
+            log.info("进入了群聊");
             handleGroupMessage(obj, userId);
         } else {
-            String receiveUser = obj.getStr("receiveUserId");
+            String receiveUser = obj.getStr("receiveUser");
             String text = obj.getStr("content");
 //            handlePrivateMessage(msgObj, userId); // 原有单聊处理
+            log.info("进入了单聊");
              Session toSession = sessionMap.get(receiveUser);
             if (toSession != null) {
                 JSONObject jsonObject = new JSONObject();
@@ -88,7 +90,7 @@ public class WebSocketServe {
     }
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("发生错误");
+        log.error("发生错误",error);
         error.printStackTrace();
     }
 

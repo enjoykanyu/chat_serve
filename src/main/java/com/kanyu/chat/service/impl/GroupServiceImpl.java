@@ -8,10 +8,7 @@ import com.kanyu.chat.config.WebSocketServe;
 import com.kanyu.chat.dto.ChatContentDto;
 import com.kanyu.chat.dto.FriendShipDto;
 import com.kanyu.chat.dto.GroupDto;
-import com.kanyu.chat.entity.ChatContent;
-import com.kanyu.chat.entity.Group;
-import com.kanyu.chat.entity.GroupMessage;
-import com.kanyu.chat.entity.User;
+import com.kanyu.chat.entity.*;
 import com.kanyu.chat.mapper.ChatMapper;
 import com.kanyu.chat.mapper.GroupMapper;
 import com.kanyu.chat.service.*;
@@ -85,5 +82,16 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     @Override
     public Result updateGroup(Group dto) {
         return null;
+    }
+
+    @Override
+    public Result getGroupMember(String groupId) {
+        List<GroupMember> groupMemberList = groupMemberService.query().eq("group_id", groupId).list();
+        List<User> result = new ArrayList<>();
+        for (GroupMember member:groupMemberList) {
+            User user = loginService.query().eq("id", member.getUserId()).one();
+            result.add(user);
+        }
+        return Result.ok(result);
     }
 }

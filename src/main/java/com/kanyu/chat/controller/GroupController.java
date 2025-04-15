@@ -6,10 +6,7 @@ import com.kanyu.chat.entity.Group;
 import com.kanyu.chat.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -38,4 +35,12 @@ public class GroupController {
     public Result updateGroup(@RequestBody Group dto) {
         return groupService.updateGroup(dto);
     }
+
+    //查看群成员信息
+    // 更新群名称
+    @GetMapping("/getGroupMember")
+    public Result getGroupMember(@RequestParam String groupId) {
+        return groupService.getGroupMember(groupId);
+    }
+
 }

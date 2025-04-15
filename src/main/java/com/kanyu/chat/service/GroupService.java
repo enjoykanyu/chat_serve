@@ -15,4 +15,6 @@ public interface GroupService extends IService<Group> {
     Result deleteGroup(Group dto);
 
     Result updateGroup(Group dto);
+
+    Result getGroupMember(String groupId);
 }

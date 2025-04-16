@@ -63,7 +63,15 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friendship> imp
         if (one==null){
             return Result.fail("当前用户不是您的好友",400);
         }
-        return Result.ok(true);
+        if (one.getStatus() == 1){
+            return Result.ok(true);
+        }else if (one.getStatus() ==2){
+            return Result.fail("当前好友已被您删除",100007);
+        }else if (one.getStatus() ==3){
+            return Result.fail("当前好友已被您拉入黑名单",100008);
+        }else {
+            return Result.fail("系统错误",400);
+        }
     }
 
 

@@ -213,6 +213,16 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
     @Override
     public Result insertChat(ChatContent chatContent) {
         save(chatContent);
+        //加上是否为好友判断
+        Result is_my_friend = friendService.isFriend(chatContent.getSendUserId(), chatContent.getReceiveUserId());
+        Result is_receiver_friend = friendService.isFriend(chatContent.getReceiveUserId(), chatContent.getSendUserId());
+        if (is_my_friend.getCode()==100007 || is_receiver_friend.getCode()==100007){ //对方不是你的好友，即对方被你删除了 或者没有加过对方为好友
+            return Result.fail("对方不是你的好友",100007);
+        }else if (is_my_friend.getCode()==100008){
+            return Result.fail("您已将对方拉黑",100009);
+        }else if (is_receiver_friend.getCode()==100008){
+            return Result.fail("消息已发出，但被对方拒收了",100010);
+        }
         return Result.ok();
     }
 

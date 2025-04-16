@@ -29,7 +29,7 @@ public class Friendship implements Serializable {
     //当前用户的好友id
     private Long friendId;
 
-    //加好友的状态  1好友 2 当前用户删除类对方 3拉黑
+    //加好友的状态 0处理中 1好友 2 当前用户删除类对方 3拉黑
     private Integer status;
     
     private LocalDateTime createTime;

@@ -35,6 +35,11 @@ public class GroupMember implements Serializable {
     private Long userId;
 
     /**
+     * 群成员状态 1 存在 2已退群
+     */
+    private Integer status;
+
+    /**
      * 进群时间
      */
     private LocalDateTime join_time;

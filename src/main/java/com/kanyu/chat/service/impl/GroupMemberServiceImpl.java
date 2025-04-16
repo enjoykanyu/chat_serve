@@ -38,4 +38,20 @@ public class GroupMemberServiceImpl extends ServiceImpl<GroupMemberMapper, Group
         List<GroupMember> groups = query().eq("user_id", userId).list();
         return groups;
     }
+
+
+    /*
+     * 查询当前用户是否为群成员
+     * */
+    @Override
+    public Boolean isGroupMember(String uuid, Long userId) {
+        GroupMember member = query().eq("group_id", uuid).eq("user_id", userId).one();
+        if (member==null) {
+            return false;
+        }else if (member.getStatus()==1){
+            return true;
+        }else {
+         return false;
+        }
+    }
 }

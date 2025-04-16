@@ -94,4 +94,17 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
         }
         return Result.ok(result);
     }
+
+    /*
+     * 查询当前群聊是否被解散
+     * */
+    @Override
+    public Boolean groupExist(String uuid) {
+        Group group = query().eq("group_id", uuid).one();
+        if (group.getStatus()==1){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

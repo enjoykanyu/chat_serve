@@ -190,6 +190,17 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
     @Override
     public Result insertGroupChat(MessageDto messageDto) {
         String groupId = messageDto.getGroupId();
+
+        //当前群聊是否没有被解散
+        Boolean groupExist = groupService.groupExist(groupId);
+        if (!groupExist){
+            return Result.fail("当前群聊已解散",1000018);
+        }
+        //当前发送消息的人是否为群成员
+        Boolean isGroupMember = groupMemberService.isGroupMember(groupId, Long.valueOf(messageDto.getSendUser()));
+        if (!isGroupMember){
+            return Result.fail("您已不是当前群成员",1000019);
+        }
         GroupMessage groupMessage = new GroupMessage();
         groupMessage.setGroupId(groupId);
         groupMessage.setSenderId(Long.valueOf(messageDto.getSendUser()));

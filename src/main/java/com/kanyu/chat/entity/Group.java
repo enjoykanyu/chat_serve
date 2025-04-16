@@ -44,6 +44,11 @@ public class Group implements Serializable {
      */
     private String avatar;
 
+    /**
+     * 群状态 1 存在 2已解散
+     */
+    private Integer status;
+
 
     /**
      * 创建时间

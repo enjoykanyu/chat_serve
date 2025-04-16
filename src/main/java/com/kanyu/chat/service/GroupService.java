@@ -17,4 +17,6 @@ public interface GroupService extends IService<Group> {
     Result updateGroup(Group dto);
 
     Result getGroupMember(String groupId);
+
+    Boolean groupExist(String uuid);
 }

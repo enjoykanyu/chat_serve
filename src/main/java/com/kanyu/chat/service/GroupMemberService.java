@@ -16,4 +16,8 @@ public interface GroupMemberService extends IService<GroupMember> {
 
     List<GroupMember> selectGroups(Long user);
 
+
+    Boolean isGroupMember(String uuid,Long userId);
+
+
 }

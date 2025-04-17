@@ -74,5 +74,23 @@ public class FriendServiceImpl extends ServiceImpl<FriendMapper, Friendship> imp
         }
     }
 
+    @Override
+    public Result deleteFriend(Long userId, Long friendId) {
+        boolean is_update = update().eq("friend_id", friendId).eq("user_id", userId).setSql("status = 2").update();
+        if (is_update){
+            return Result.ok();
+        }
+        return Result.fail("系统服务错误",400);
+    }
+
+    @Override
+    public Result blackFriend(Long userId, Long friendId) {
+        boolean is_update = update().eq("friend_id", friendId).eq("user_id", userId).setSql("status = 3").update();
+        if (is_update){
+            return Result.ok();
+        }
+        return Result.fail("系统服务错误",400);
+    }
+
 
 }

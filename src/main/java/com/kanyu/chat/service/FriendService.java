@@ -18,4 +18,8 @@ public interface FriendService extends IService<Friendship> {
     Result searchUser(String phone);
 
     Result isFriend(Long userId, Long id);
+
+    Result deleteFriend(Long userId, Long friendId);
+
+    Result blackFriend(Long userId, Long friendId);
 }

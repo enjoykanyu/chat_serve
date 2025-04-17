@@ -92,4 +92,19 @@ public class FriendController {
         return friendService.isFriend(userId,user.getId());
     }
 
+
+    // 删除好友
+    @PostMapping("/delete")
+    public Result deleteFriend(@RequestParam Long friendId, HttpSession session) {
+        Long userId = UserHolder.getUser().getId();
+        return friendService.deleteFriend(userId,friendId);
+    }
+
+    // 拉黑好友
+    @PostMapping("/black")
+    public Result blackFriend(@RequestParam Long friendId, HttpSession session) {
+        Long userId = UserHolder.getUser().getId();
+        return friendService.blackFriend(userId,friendId);
+    }
+
 }

@@ -1,16 +1,10 @@
-package com.kanyu.chat.controller;
+package com.kanyu.user_service.controller;
 
-import com.kanyu.chat.common.Result;
-import com.kanyu.chat.dto.MessageDto;
-import com.kanyu.chat.entity.ChatContent;
-import com.kanyu.chat.entity.User;
-import com.kanyu.chat.service.ChatService;
-import com.kanyu.chat.service.LoginService;
-import com.kanyu.chat.utils.UserHolder;
+import com.kanyu.user_service.common.Result;
+import com.kanyu.user_service.dto.MessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 /**

@@ -1,0 +1,47 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: hmdp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/kanyuServer?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 901project
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    #    password: 123321
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+  jackson:
+    default-property-inclusion: non_null # JSON处理时忽略非空字段
+  servlet:
+    multipart:
+      max-file-size: 10MB   # 单个文件上传的最大上限
+      max-request-size:  100MB  # 整个请求体的最大上限
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+mybatis-plus:
+  type-aliases-package: com.hmdp.entity # 别名扫描包
+logging:
+  level:
+    com.kanyuServer: debug
+  pattern:
+    dateformat: mm:ss.SSS
+
+#minio配置
+minio:
+  access-key: P0YtFn3Wn8ncHjpXUjHu
+  secret-key: Lx6rLeKNCL8EzVPZzeNRK7u5W5jJzl4KYdPzL32s
+  url: http://127.0.0.1:9000  #访问地址
+  bucket-name: testbucket

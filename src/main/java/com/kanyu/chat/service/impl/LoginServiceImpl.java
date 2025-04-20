@@ -70,8 +70,8 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
         //3，生成验证码
         String code = RandomUtil.randomNumbers(6);
         log.info("请求验证码"+code);
-        //4，存储进入redis 设置常量 key=登录业务前缀+邮箱 过期时间2分钟
-        stringRedisTemplate.opsForValue().set("user_login"+phone,code,300, TimeUnit.MINUTES );
+        //4，存储进入redis 设置常量 key=登录业务前缀+邮箱 过期时间5分钟
+        stringRedisTemplate.opsForValue().set("user_login"+phone,code,300, TimeUnit.SECONDS );
         //5，返回验证码
         HashMap<String,String> codeValue = new HashMap<>();
         codeValue.put("code", code);

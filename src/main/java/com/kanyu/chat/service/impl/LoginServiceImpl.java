@@ -36,24 +36,24 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void testCode(String phone, HttpSession session) {
-        User user_test = new User();
-        user_test.setUserName("B");
-        user_test.setPhone("3911111111");
-        user_test.setPassword("3");
-        save(user_test);
-    }
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    public void testCode(String phone, HttpSession session) {
+//        User user_test = new User();
+//        user_test.setUserName("B");
+//        user_test.setPhone("3911111111");
+//        user_test.setPassword("3");
+//        save(user_test);
+//    }
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Result sendCode(String phone, HttpSession session) {
-        User user_test = new User();
-        user_test.setUserName("A");
-        user_test.setPhone("397111111");
-        user_test.setPassword("3");
-        save(user_test);
-        testCode(phone,session);
-        int value =1/0;
+//        User user_test = new User();
+//        user_test.setUserName("A");
+//        user_test.setPhone("397111111");
+//        user_test.setPassword("3");
+//        save(user_test);
+//        testCode(phone,session);
+//        int value =1/0;
         //1，看手机号格式是否正确
         boolean is_valid = Validate.isPhoneInvalid(phone);
         if (is_valid) {

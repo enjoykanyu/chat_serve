@@ -164,7 +164,7 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
                         .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
 
         // 存储
-        String tokenKey = "user_login" + token;
+        String tokenKey = LOGIN_USER_KEY + token;
         log.info(userMap.toString());
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
         //设置token有效期

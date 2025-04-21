@@ -77,12 +77,14 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
 
     @Override
     public Result deleteGroup(Group dto) {
-        return null;
+        boolean is_delete = update().eq("group_id", dto.getGroupId()).setSql("status = 2").update();
+        return Result.ok(is_delete);
     }
 
     @Override
     public Result updateGroup(Group dto) {
-        return null;
+        boolean is_update = update().eq("group_id", dto.getGroupId()).setEntity(dto).update();
+        return Result.ok(is_update);
     }
 
     @Override
@@ -107,5 +109,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
         }else {
             return false;
         }
+    }
+
+    @Override
+    public Result quitGroup(Group dto) {
+        boolean is_quit = groupMemberService.update().eq("group_id", dto.getGroupId()).eq("user_id", UserHolder.getUser().getId()).update();
+        return Result.ok(is_quit);
     }
 }

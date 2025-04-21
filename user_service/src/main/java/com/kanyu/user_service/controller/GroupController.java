@@ -41,4 +41,10 @@ public class GroupController {
         return groupService.getGroupMember(groupId);
     }
 
+    // 退出群组
+    @PostMapping("/quitGroup")
+    public Result quitGroup(@RequestBody Group dto) {
+        return groupService.quitGroup(dto);
+    }
+
 }

@@ -19,4 +19,6 @@ public interface GroupService extends IService<Group> {
     Result getGroupMember(String groupId);
 
     Boolean groupExist(String uuid);
+
+    Result quitGroup(Group dto);
 }

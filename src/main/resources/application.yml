@@ -30,7 +30,16 @@ spring:
     port: 5672
     username: guest
     password: guest
-
+  ai:
+    ollama:
+      base-url: http://localhost:11434 # 哦llama地址
+      chat:
+        #        model: llama3 # 模型
+        options:
+          temperature: 0.8 # 温度越高，回答越有创意
+          top-p: 0.9 # 数值越高，回答越多样
+          top-k: 100 # 数值越高，回答越多样
+        model: llama2-chinese  #中文
 mybatis-plus:
   type-aliases-package: com.hmdp.entity # 别名扫描包
 logging:

@@ -5,7 +5,7 @@ import com.kanyu.chat.common.Result;
 import com.kanyu.chat.dto.RegisterForm;
 import com.kanyu.chat.entity.User;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 public interface RegisterService extends IService<User> {
     Result register(RegisterForm registerForm, HttpSession session);

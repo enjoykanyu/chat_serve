@@ -8,7 +8,7 @@ import com.kanyu.chat.entity.Group;
 import com.kanyu.chat.entity.User;
 
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 public interface ChatService extends IService<ChatContent> {
 

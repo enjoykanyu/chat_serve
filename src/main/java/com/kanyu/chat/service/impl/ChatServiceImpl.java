@@ -14,8 +14,8 @@ import jodd.util.ArraysUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,7 +125,7 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
             ChatContent reciver_cotent = query().eq("receive_user_id", user.getId()).eq("send_user_id", friend.getFriendUser().getId()).orderByDesc("create_time").last("limit 1").one();
             log.info("当前用户发送给对方的最后一条消息"+reciver_cotent);
             ChatContent actual_cotent = cur_cotent; //实际最靠后的消息对象
-            Integer unread =0;
+            Long unread = 0L;
             if (cur_cotent==null || reciver_cotent==null){ //当前用户没有发送消息给对方
                 if (cur_cotent == null && reciver_cotent==null ){
                     continue; //跳过当前联系人的消息

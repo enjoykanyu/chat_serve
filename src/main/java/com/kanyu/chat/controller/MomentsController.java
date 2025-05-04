@@ -10,8 +10,8 @@ import com.kanyu.chat.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * 朋友圈控制器
@@ -59,8 +59,8 @@ public class MomentsController {
         return Result.ok();
     }
     //朋友圈详情
-    @GetMapping("moments/list")
-    public Result momentsGet(@RequestParam("groupId") String group_id, HttpSession session) {
-        return Result.ok();
-    }
+//    @GetMapping("moments/list")
+//    public Result momentsGet(@RequestParam("groupId") String group_id, HttpSession session) {
+//        return Result.ok();
+//    }
 }

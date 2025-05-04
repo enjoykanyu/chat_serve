@@ -10,13 +10,13 @@ import com.kanyu.chat.mapper.FriendMapper;
 import com.kanyu.chat.service.FriendService;
 import com.kanyu.chat.service.LoginService;
 import com.kanyu.chat.utils.UserHolder;
-import jdk.nashorn.internal.ir.annotations.Reference;
+//import jdk.nashorn.internal.ir.annotations.Reference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -14,8 +14,8 @@ import com.kanyu.chat.vo.LatestMessageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;

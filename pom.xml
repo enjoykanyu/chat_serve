@@ -16,6 +16,7 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,12 +32,6 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>5.1.47</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -46,11 +41,27 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- pom.xml 中添加 MySQL 驱动（必须显式声明） -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>  <!-- 需与 MySQL 服务版本匹配 :ml-citation{ref="5,8" data="citationList"} -->
+        </dependency>
+
+        <!-- 若使用 MyBatis-Plus，升级至兼容版本 -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3</version>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.6</version>  <!-- Spring Boot 3.x 需 ≥3.5.0 :ml-citation{ref="7" data="citationList"} -->
         </dependency>
+
+        <!-- WebFlux 响应式支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+
         <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -83,7 +94,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
-            <version>2.7.0</version>
+            <version>3.4.5</version>
         </dependency>
         <dependency>
             <groupId>org.mindrot</groupId>

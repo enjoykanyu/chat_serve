@@ -7,7 +7,7 @@ import com.kanyu.chat.entity.ChatContent;
 import com.kanyu.chat.entity.Moments;
 import com.kanyu.chat.entity.User;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 public interface MomentsService extends IService<Moments> {
 

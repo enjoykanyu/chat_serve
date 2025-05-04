@@ -7,7 +7,7 @@ import com.kanyu.chat.entity.FriendRequest;
 import com.kanyu.chat.entity.Friendship;
 import com.kanyu.chat.entity.User;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 public interface FriendService extends IService<Friendship> {

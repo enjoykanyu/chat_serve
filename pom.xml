@@ -62,15 +62,15 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>io.asyncer</groupId>
-            <artifactId>r2dbc-mysql</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-r2dbc</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.asyncer</groupId>-->
+<!--            <artifactId>r2dbc-mysql</artifactId>-->
+<!--            <version>1.0.4</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-r2dbc</artifactId>-->
+<!--        </dependency>-->
 
         <!--hutool-->
         <dependency>

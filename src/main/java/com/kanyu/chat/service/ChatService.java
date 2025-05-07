@@ -10,6 +10,8 @@ import com.kanyu.chat.entity.User;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+
 public interface ChatService extends IService<ChatContent> {
 
     Result oneConent(Long sendUserId, Long receiveUserId, HttpSession session);
@@ -21,4 +23,6 @@ public interface ChatService extends IService<ChatContent> {
     Result insertGroupChat(MessageDto messageDto);
 
     Result groupChat(String group_id, HttpSession session);
+
+    List<ChatContent> selectBySessionId(String sessionId);
 }

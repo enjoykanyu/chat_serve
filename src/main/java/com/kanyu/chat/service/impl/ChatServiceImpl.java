@@ -246,4 +246,9 @@ public class ChatServiceImpl extends ServiceImpl<ChatMapper, ChatContent> implem
         }
         return Result.ok(result);
     }
+
+    @Override
+    public List<ChatContent> selectBySessionId(String sessionId) {
+        return null;
+    }
 }

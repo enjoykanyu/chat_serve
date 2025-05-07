@@ -83,8 +83,8 @@ public class ChatBotController {
         //创建随机会话 ID 存储用户发送对话
         ChatContent chatContent = new ChatContent();
         chatContent.setMessage(message);
-        chatContent.setSendUserId(UserHolder.getUser().getId());
-        String sessionId = UUID.randomUUID().toString();
+        chatContent.setSendUserId(userId);
+        String sessionId = "333";
         chatContent.setReceiveUserId(Long.valueOf(sessionId));
         //存储机器人的回答消息
 

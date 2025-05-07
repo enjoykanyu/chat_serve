@@ -81,6 +81,7 @@ public class ChatBotController {
     @GetMapping(value = "/streamChat", produces = "text/event-stream;charset=UTF-8")
     public Flux<String> streamChat(@RequestParam("message")String message){
         //创建随机会话 ID 存储用户发送对话
+        Long userId = UserHolder.getUser().getId();
         ChatContent chatContent = new ChatContent();
         chatContent.setMessage(message);
         chatContent.setSendUserId(userId);
@@ -92,11 +93,13 @@ public class ChatBotController {
         return chatClient.prompt(message)
                 .stream()
                 .content()
+                .delayElements(Duration.ofMillis(50)) // 控制发送频率
                 .flatMap(reply -> {
                     // 保存机器人回复
                     ChatContent botMsg = new ChatContent();
                     botMsg.setSendUserId(Long.valueOf(sessionId));
                     botMsg.setMessage(reply);
+                    botMsg.setReceiveUserId(userId);
                     return Mono.fromCallable(() -> {
                         chatService.save(botMsg); // 非阻塞包装
                         return reply;

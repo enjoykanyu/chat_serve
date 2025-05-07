@@ -57,7 +57,12 @@ spring:
           min-idle: 1
           time-between-eviction-runs: 10s
 mybatis-plus:
-  type-aliases-package: com.hmdp.entity # 别名扫描包
+  type-aliases-package: com.kanyu.chat.entity  # 实体类包路径
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰映射
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启 SQL 日志
+  mapper-locations: classpath*:/mapper/**/*.xml  # 即使无 XML 文件也需保留
+
 logging:
   level:
     com.kanyuServer: debug

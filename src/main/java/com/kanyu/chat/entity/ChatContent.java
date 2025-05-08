@@ -46,6 +46,10 @@ public class ChatContent implements Serializable {
     private int isRead;
 
     /**
+     * 机器人sessionId
+     */
+    private String sessionId;
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

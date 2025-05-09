@@ -126,8 +126,8 @@ public class ChatBotController {
         Long userId = UserHolder.getUser().getId();
 
         return Flux.concat(
-                // 阶段1：思考过程
-                processThinking(message, sessionId, userId),
+//                // 阶段1：思考过程
+//                processThinking(message, sessionId, userId),
 
                 // 阶段2：正式回答
                 processAnswering(message, sessionId, userId)

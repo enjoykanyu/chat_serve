@@ -46,7 +46,7 @@ spring:
           temperature: 0.8 # 温度越高，回答越有创意
           top-p: 0.9 # 数值越高，回答越多样
           top-k: 100 # 数值越高，回答越多样
-        model: llama3  #中文
+        model: deepseek-r1:1.5b  #中文
   data:
     redis:
       host: 127.0.0.1

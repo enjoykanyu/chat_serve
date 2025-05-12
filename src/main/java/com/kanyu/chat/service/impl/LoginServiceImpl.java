@@ -108,7 +108,7 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements L
         loginForm1.setCode("");
         Map<String, Object> userMap = BeanUtil.beanToMap(loginForm1, new HashMap<>(),
                 CopyOptions.create().setIgnoreNullValue(true)
-                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+                        .setFieldValueEditor((fieldName, fieldValue) -> String.valueOf(fieldValue)));
         // 7.3.存储
         String tokenKey = LOGIN_USER_KEY + token;
         log.info("tokenKey"+tokenKey);

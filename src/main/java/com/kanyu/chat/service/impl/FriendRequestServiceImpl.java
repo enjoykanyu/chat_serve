@@ -39,6 +39,7 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
     LoginService loginService;
     @Resource
     ChatService chatService;
+    @Override
     @Transactional
     public void sendFriendRequest(Long requesterId, Long receiverId,String reason) {
         // 验证不能添加自己
@@ -101,6 +102,7 @@ public class FriendRequestServiceImpl extends ServiceImpl<FriendRequestMapper, F
     }
 
     @Transactional
+    @Override
     public void handleRequest(Long requestId, Long userId, boolean accept) {
 //        Friendship friendship = friendshipRepository.findById(requestId)
 //            .orElseThrow(() -> new ResourceNotFoundException("请求不存在"));

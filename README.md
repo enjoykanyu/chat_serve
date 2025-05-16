@@ -72,6 +72,13 @@
 - 项目部署所需资源和配置请参考application.yml文件
 - 本项目前端地址：https://github.com/enjoykanyu/kChat_web
 
+
+
+
+
+- db文件
+本项目所有的db表数据全部在resource/db/chatserve.sql
+  
 最后
 - 觉得项目不错的话，欢迎star支持下，感谢🫰
 - 对于项目有任何问题欢迎提问和提issue
